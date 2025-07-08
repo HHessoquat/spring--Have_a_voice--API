@@ -3,11 +3,14 @@ package com.HaveAVoice.Election;
 import com.HaveAVoice.User.UserDB;
 import com.HaveAVoice.Choice.Choice;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,14 +21,23 @@ public class Election {
     @Id
     private Long id;
 
+    @NotBlank(message = "{ELECTION.VALIDATION.NAME.NOT_BLANK}")
+    @Length(min = 5, max = 200, message = "{ELECTION.VALIDATION.NAME.LENGTH}")
+    protected String name;
+
+
     @ManyToOne
     @JoinColumn(name = "organizer_id", nullable = false)
     @NotBlank
     private UserDB organizer;
 
-    @NotBlank(message = "{ELECTION.VALIDATION.NAME.NOT_BLANK}")
-    @Length(min = 5, max = 200, message = "{ELECTION.VALIDATION.NAME.LENGTH}")
-    protected String name;
+    private LocalDateTime created = LocalDateTime.now();
+
+    @FutureOrPresent
+    private LocalDateTime dateStart;
+    @Future
+    private LocalDateTime dateEnd;
+
 
     @OneToMany(mappedBy = "election",cascade = CascadeType.ALL, orphanRemoval = true)
     @Size(min= 2)
