@@ -2,6 +2,7 @@ package com.HaveAVoice.Election;
 
 import com.HaveAVoice.Choice.Choice;
 import com.HaveAVoice.Election.bll.ElectionService;
+import com.HaveAVoice.Election.dto.ElectionWriteDto;
 import com.HaveAVoice.shared.Response.ResponseService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -30,13 +31,9 @@ public class ElectionController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/{id}/choices")
-    public ResponseEntity<ResponseService<List<Choice>>> forElection(@PathVariable Long id) {
-        return ResponseEntity.ok().body(this.electionService.getChoicesForElection(id));
-    }
 
     @PostMapping
-    public ResponseEntity<ResponseService<Election>> addElection(@Validated @RequestBody Election election) {
+    public ResponseEntity<ResponseService<Election>> addElection(@Validated @RequestBody ElectionWriteDto election) {
         var response = electionService.add(election);
         return ResponseEntity.status(201).body(response);
     }

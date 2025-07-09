@@ -3,7 +3,10 @@ package com.HaveAVoice.Election.bll;
 import com.HaveAVoice.Choice.Choice;
 import com.HaveAVoice.Choice.dal.ChoiceRepository;
 import com.HaveAVoice.Election.Election;
+import com.HaveAVoice.Election.converter.ElectionWriteConverter;
 import com.HaveAVoice.Election.dal.ElectionRepository;
+import com.HaveAVoice.Election.dto.ElectionWriteDto;
+import com.HaveAVoice.User.UserDB;
 import com.HaveAVoice.shared.Exception.ResourceNotFoundException;
 import com.HaveAVoice.shared.Response.ResponseService;
 import com.HaveAVoice.shared.BusinessCodes;
@@ -17,11 +20,18 @@ public class ElectionServiceImpl implements ElectionService {
     private final ElectionRepository repo;
     private final ChoiceRepository choiceRepo;
     private final MessageHelper message;
+    private final ElectionWriteConverter electionWriteConverter;
 
-    public ElectionServiceImpl(ElectionRepository repo, MessageHelper message, ChoiceRepository choiceRepo) {
+    public ElectionServiceImpl(
+            ElectionRepository repo,
+            MessageHelper message,
+            ChoiceRepository choiceRepo,
+            ElectionWriteConverter electionWriteConverter
+    ) {
         this.repo = repo;
         this.message = message;
         this.choiceRepo = choiceRepo;
+        this.electionWriteConverter = electionWriteConverter;
     }
     @Override
     public ResponseService<List<Election>> getAll() {
@@ -43,18 +53,11 @@ public class ElectionServiceImpl implements ElectionService {
                 election
         );
     }
-    @Override
-    public ResponseService<List<Choice>> getChoicesForElection(Long electionId) {
-        return ResponseService.build(
-                BusinessCodes.CHOICE_RETRIEVED,
-                message.i18n("RESPONSE.SUCCESS"),
-                this.choiceRepo.findByElection_Id(electionId)
-        );
-    }
 
     @Override
-    public ResponseService<Election> add(Election election) {
-        repo.save(election);
+    public ResponseService<Election> add(ElectionWriteDto electionDto) {
+
+        Election election = repo.save(this.electionWriteConverter.convert(electionDto));
         return ResponseService.build(
                 BusinessCodes.ELECTION_CREATED,
                 message.i18n("RESPONSE.SUCCESS"),

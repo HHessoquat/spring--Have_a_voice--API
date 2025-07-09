@@ -7,5 +7,4 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 @Repository
 public interface ChoiceRepository extends JpaRepository<Choice, Long> {
-    List<Choice> findByElection_Id(Long election_Id);
 }

@@ -2,7 +2,9 @@ package com.HaveAVoice.Election;
 
 import com.HaveAVoice.User.UserDB;
 import com.HaveAVoice.Choice.Choice;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
@@ -19,7 +21,7 @@ import java.util.List;
 public class Election {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    private Long id;
+    protected Long id;
 
     @NotBlank(message = "{ELECTION.VALIDATION.NAME.NOT_BLANK}")
     @Length(min = 5, max = 200, message = "{ELECTION.VALIDATION.NAME.LENGTH}")
@@ -28,7 +30,7 @@ public class Election {
 
     @ManyToOne
     @JoinColumn(name = "organizer_id", nullable = false)
-    @NotBlank
+    @Valid
     private UserDB organizer;
 
     private LocalDateTime created = LocalDateTime.now();
@@ -39,7 +41,8 @@ public class Election {
     private LocalDateTime dateEnd;
 
 
-    @OneToMany(mappedBy = "election",cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     @Size(min= 2)
     protected List<Choice> choices = new ArrayList<Choice>();
 
