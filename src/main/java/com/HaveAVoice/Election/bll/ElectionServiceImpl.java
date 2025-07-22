@@ -1,12 +1,10 @@
 package com.HaveAVoice.Election.bll;
 
-import com.HaveAVoice.Choice.Choice;
 import com.HaveAVoice.Choice.dal.ChoiceRepository;
 import com.HaveAVoice.Election.Election;
-import com.HaveAVoice.Election.converter.ElectionWriteConverter;
+import com.HaveAVoice.Election.bll.converter.ElectionWriteConverter;
 import com.HaveAVoice.Election.dal.ElectionRepository;
 import com.HaveAVoice.Election.dto.ElectionWriteDto;
-import com.HaveAVoice.User.UserDB;
 import com.HaveAVoice.shared.Exception.ResourceNotFoundException;
 import com.HaveAVoice.shared.Response.ResponseService;
 import com.HaveAVoice.shared.BusinessCodes;

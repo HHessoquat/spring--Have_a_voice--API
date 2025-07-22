@@ -24,11 +24,11 @@ public class UserController {
         return ResponseEntity.ok().body(userService.getAllUsers());
     }
 
-    @GetMapping("/user/id/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<ResponseService<UserDB>> getUserById(@PathVariable Long id) {
         return ResponseEntity.ok().body(userService.getUser(id));
     }
-    @GetMapping("/user/name/{name}")
+    @GetMapping("/name/{name}")
     public ResponseEntity<ResponseService<UserDB>> getUserByName(@PathVariable String name) {
         return ResponseEntity.ok().body(userService.getUserByUsername(name));
     }

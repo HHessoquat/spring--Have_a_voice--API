@@ -1,7 +1,10 @@
 package com.HaveAVoice.Vote.bll;
 
+import com.HaveAVoice.Election.bll.converter.ElectionWriteConverter;
 import com.HaveAVoice.Vote.Vote;
+import com.HaveAVoice.Vote.bll.converter.VoteWriteConverter;
 import com.HaveAVoice.Vote.dal.VoteRepository;
+import com.HaveAVoice.Vote.dto.VoteWriteDto;
 import com.HaveAVoice.shared.BusinessCodes;
 import com.HaveAVoice.shared.Exception.ResourceNotFoundException;
 import com.HaveAVoice.shared.Response.ResponseService;
@@ -12,10 +15,13 @@ import org.springframework.stereotype.Service;
 public class VoteServiceImpl implements VoteService {
     VoteRepository repo;
     MessageHelper message;
+    VoteWriteConverter converter;
 
-    VoteServiceImpl(VoteRepository repo, MessageHelper message) {
+    VoteServiceImpl(VoteRepository repo, MessageHelper message, VoteWriteConverter converter) {
         this.repo = repo;
         this.message = message;
+        this.converter = converter;
+
     }
     @Override
     public ResponseService<Vote> getVoteById(Long id) {
@@ -28,7 +34,8 @@ public class VoteServiceImpl implements VoteService {
     }
 
     @Override
-    public ResponseService<Vote> addVote(Vote vote) {
+    public ResponseService<Vote> addVote(VoteWriteDto voteDto) {
+        Vote vote = this.converter.convert(voteDto);
         return ResponseService.build(
                 BusinessCodes.VOTE_CREATED,
                 message.i18n("RESPONSE.SUCCESS"),

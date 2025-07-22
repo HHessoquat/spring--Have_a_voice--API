@@ -1,4 +1,4 @@
-package com.HaveAVoice.Election.converter;
+package com.HaveAVoice.Election.bll.converter;
 
 import com.HaveAVoice.Choice.Choice;
 import com.HaveAVoice.Election.Election;

@@ -3,6 +3,7 @@ package com.HaveAVoice.Choice;
 import com.HaveAVoice.Election.Election;
 import com.HaveAVoice.Vote.Vote;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
@@ -29,7 +30,8 @@ public class Choice {
     protected Election election;
 
     @OneToMany
-    @JoinColumn(name = "vote_id", foreignKey = @ForeignKey(name = "FK_choice_vote"))
+    @JsonManagedReference
+    @JoinColumn(name = "choice_id", foreignKey = @ForeignKey(name = "FK_choice_vote"))
     protected List<Vote> votes;
 
 }

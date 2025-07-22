@@ -1,8 +1,10 @@
 package com.HaveAVoice.Vote;
 
 import com.HaveAVoice.Vote.bll.VoteService;
+import com.HaveAVoice.Vote.dto.VoteWriteDto;
 import com.HaveAVoice.shared.Response.ResponseService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +23,7 @@ public class VoteController {
     }
 
      @PostMapping
-    public ResponseEntity<ResponseService<Vote>> addVote(@RequestBody Vote vote) {
+    public ResponseEntity<ResponseService<Vote>> addVote(@RequestBody VoteWriteDto vote) {
         return ResponseEntity.status(HttpStatus.CREATED).body(voteService.addVote(vote));
      }
 

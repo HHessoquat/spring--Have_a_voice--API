@@ -2,6 +2,7 @@ package com.HaveAVoice.Election;
 
 import com.HaveAVoice.User.UserDB;
 import com.HaveAVoice.Choice.Choice;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
@@ -30,6 +31,7 @@ public class Election {
 
     @ManyToOne
     @JoinColumn(name = "organizer_id", nullable = false)
+    @JsonManagedReference
     @Valid
     private UserDB organizer;
 
@@ -41,8 +43,7 @@ public class Election {
     private LocalDateTime dateEnd;
 
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    @OneToMany(mappedBy = "election",cascade = CascadeType.ALL, orphanRemoval = true)
     @Size(min= 2)
     protected List<Choice> choices = new ArrayList<Choice>();
 

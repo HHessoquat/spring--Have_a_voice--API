@@ -2,6 +2,7 @@ package com.HaveAVoice.User;
 
 import com.HaveAVoice.Election.Election;
 import com.HaveAVoice.Vote.Vote;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -26,8 +27,10 @@ public class UserDB {
     @NotBlank
     private String roles = "USER";
     @OneToMany(mappedBy = "organizer", orphanRemoval = true, cascade = CascadeType.ALL)
+    @JsonBackReference
     private List<Election> elections;
     @OneToMany(mappedBy = "voter", orphanRemoval = true, cascade = CascadeType.REMOVE)
+    @JsonBackReference
     private List<Vote> votes;
 
     public UserDB() {}
