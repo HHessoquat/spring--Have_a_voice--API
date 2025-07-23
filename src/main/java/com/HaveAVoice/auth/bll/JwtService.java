@@ -1,7 +1,7 @@
 package com.HaveAVoice.auth.bll;
 
 import com.HaveAVoice.User.BLL.UserService;
-import com.HaveAVoice.User.UserDB;
+import com.HaveAVoice.User.dto.UserDbReadDto;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
@@ -27,7 +27,7 @@ public class JwtService {
 
     public String generateToken(Authentication authentication) {
         Instant now = Instant.now();
-        UserDB user = this.userService.getUserByUsername(authentication.getName()).body;
+        UserDbReadDto user = this.userService.getUserByUsername(authentication.getName()).body;
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("HaveAVoice_Corp")
                 .issuedAt(now)

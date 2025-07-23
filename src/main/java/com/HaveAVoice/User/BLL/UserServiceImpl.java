@@ -2,6 +2,8 @@ package com.HaveAVoice.User.BLL;
 
 import com.HaveAVoice.User.DAL.UserRepository;
 import com.HaveAVoice.User.UserDB;
+import com.HaveAVoice.User.converter.UserDbReadConverter;
+import com.HaveAVoice.User.dto.UserDbReadDto;
 import com.HaveAVoice.Vote.Vote;
 import com.HaveAVoice.Vote.dal.VoteRepository;
 import com.HaveAVoice.shared.BusinessCodes;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -21,44 +24,55 @@ public class UserServiceImpl implements UserService {
     private final VoteRepository voteRepo;
     private final PasswordEncoder encoder;
     private final MessageHelper message;
+    private final UserDbReadConverter converter;
 
-    public UserServiceImpl(UserRepository repo, PasswordEncoder encoder, VoteRepository voteRepo, MessageHelper message) {
+    public UserServiceImpl(
+            UserRepository repo,
+            PasswordEncoder encoder,
+            VoteRepository voteRepo,
+            MessageHelper message,
+            UserDbReadConverter converter
+    ) {
         this.repo = repo;
         this.encoder = encoder;
         this.voteRepo = voteRepo;
         this.message = message;
+        this.converter = converter;
     }
 
     @Override
-    public ResponseService<UserDB> getUser(Long id) {
+    public ResponseService<UserDbReadDto> getUser(Long id) {
         UserDB user = this.repo.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", id));
+        UserDbReadDto userDto = this.converter.convert(user);
         return ResponseService.build(
                 BusinessCodes.USER_RETRIEVED,
                 message.i18n("RESPONSE.SUCCESS"),
-                user
+                userDto
         );
     }
 
     @Override
-    public ResponseService<UserDB> getUserByUsername(String username) {
+    public ResponseService<UserDbReadDto> getUserByUsername(String username) {
         UserDB user = this.repo.findByUsername(username);
         if (user == null) {
             throw new ResourceNotFoundException("User", 0L);
         }
+        UserDbReadDto userDto = this.converter.convert(user);
         return ResponseService.build(
                 BusinessCodes.USER_RETRIEVED,
                 message.i18n("RESPONSE.SUCCESS"),
-                user
+                userDto
         );
     }
 
     @Override
-    public ResponseService<List<UserDB>> getAllUsers() {
-
+    public ResponseService<List<UserDbReadDto>> getAllUsers() {
+        List<UserDB> user = this.repo.findAll();
+        List<UserDbReadDto> userDto = user.stream().map(this.converter::convert).toList();
         return ResponseService.build(
                 BusinessCodes.USER_RETRIEVED,
                 message.i18n("RESPONSE.SUCCESS"),
-                repo.findAll()
+                userDto
         );
     }
 

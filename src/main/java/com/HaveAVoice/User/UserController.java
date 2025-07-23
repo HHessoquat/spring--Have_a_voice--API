@@ -1,6 +1,7 @@
 package com.HaveAVoice.User;
 
 import com.HaveAVoice.User.BLL.UserService;
+import com.HaveAVoice.User.dto.UserDbReadDto;
 import com.HaveAVoice.Vote.Vote;
 import com.HaveAVoice.shared.Response.ResponseService;
 import jakarta.validation.Valid;
@@ -20,16 +21,16 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<ResponseService<List<UserDB>>> getAllUsers() {
+    public ResponseEntity<ResponseService<List<UserDbReadDto>>> getAllUsers() {
         return ResponseEntity.ok().body(userService.getAllUsers());
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<ResponseService<UserDB>> getUserById(@PathVariable Long id) {
+    public ResponseEntity<ResponseService<UserDbReadDto>> getUserById(@PathVariable Long id) {
         return ResponseEntity.ok().body(userService.getUser(id));
     }
     @GetMapping("/name/{name}")
-    public ResponseEntity<ResponseService<UserDB>> getUserByName(@PathVariable String name) {
+    public ResponseEntity<ResponseService<UserDbReadDto>> getUserByName(@PathVariable String name) {
         return ResponseEntity.ok().body(userService.getUserByUsername(name));
     }
     @GetMapping("/user/{id}/votes")
