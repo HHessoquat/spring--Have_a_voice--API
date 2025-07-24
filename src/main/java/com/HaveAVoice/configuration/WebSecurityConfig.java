@@ -5,8 +5,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -53,6 +51,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/api/v1/elections/{id}").permitAll()
                         .requestMatchers(HttpMethod.POST, "api/v1/votes").permitAll()
                         .requestMatchers("/api/v1/users/add").hasRole("ADMIN")
+                        .requestMatchers("/ws_vote/**").permitAll()
                         .anyRequest().authenticated()
                 ).oauth2ResourceServer((oauth -> oauth.jwt(Customizer.withDefaults())));
 

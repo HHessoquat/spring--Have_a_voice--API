@@ -1,10 +1,10 @@
-package com.HaveAVoice.Vote;
+package com.HaveAVoice.Vote.controllers;
 
+import com.HaveAVoice.Vote.Vote;
 import com.HaveAVoice.Vote.bll.VoteService;
 import com.HaveAVoice.Vote.dto.VoteWriteDto;
 import com.HaveAVoice.shared.Response.ResponseService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
