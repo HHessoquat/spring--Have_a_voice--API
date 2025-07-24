@@ -20,6 +20,6 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws_vote").setAllowedOrigins("*");
+        registry.addEndpoint("/ws_vote").setAllowedOrigins(this.frontendUrl.split(","));
     }
 }
