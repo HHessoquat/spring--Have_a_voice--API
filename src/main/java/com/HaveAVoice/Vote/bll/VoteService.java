@@ -9,4 +9,5 @@ public interface VoteService {
     ResponseService<Vote> addVote(VoteWriteDto voteDto);
     ResponseService<Vote> updateVote(Vote vote);
     ResponseService<Void> deleteVote(Long id);
+    Vote convertDtoToVote(VoteWriteDto voteDto);
 }

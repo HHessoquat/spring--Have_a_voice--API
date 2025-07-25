@@ -35,11 +35,10 @@ public class VoteServiceImpl implements VoteService {
 
     @Override
     public ResponseService<Vote> addVote(VoteWriteDto voteDto) {
-        Vote vote = this.converter.convert(voteDto);
         return ResponseService.build(
                 BusinessCodes.VOTE_CREATED,
                 message.i18n("RESPONSE.SUCCESS"),
-                this.repo.save(vote)
+                this.repo.save(this.convertDtoToVote(voteDto))
         );
     }
 
@@ -59,5 +58,10 @@ public class VoteServiceImpl implements VoteService {
                 BusinessCodes.VOTE_DELETED,
                 message.i18n("VOTE.DELETED", new Object[] { id })
         );
+    }
+
+    @Override
+    public Vote convertDtoToVote(VoteWriteDto voteDto) {
+        return this.converter.convert(voteDto);
     }
 }

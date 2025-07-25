@@ -49,7 +49,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/login").permitAll()
                         .requestMatchers("/api/v1/elections").permitAll()
                         .requestMatchers("/api/v1/elections/{id}").permitAll()
-                        .requestMatchers(HttpMethod.POST, "api/v1/votes").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/votes").permitAll()
                         .requestMatchers("/api/v1/users/add").hasRole("ADMIN")
                         .requestMatchers("/ws_vote/**").permitAll()
                         .anyRequest().authenticated()
